@@ -1,6 +1,6 @@
 import time
 import requests
-import os
+import os, sys, stat
 import os.path as path
 from tkinter import filedialog
 from tkinter import *
@@ -11,21 +11,24 @@ config = 'config.txt'
 
 
 def get_file():
-    if os.name == 'posix':
-        print("You are using Linux")
-        root = Tk()
-        root.filename = filedialog.asksaveasfilename(initialdir = "~/",title = "Select file",filetypes = (("text files","*.txt"),("all files","*.*")))
-        root.destroy()
-        return root.filename
-    elif os.name == 'nt':
-        print("You are using Windows")
-        root = Tk()
-        root.filename = filedialog.asksaveasfilename(initialdir = "C:/",title = "Select file",filetypes = (("text files","*.txt"),("all files","*.*")))
-        root.destroy()
-        return root.filename
+    yn = input("Would you like to use the GUI? y/[n]")
+    if yn.lower() == "y":
+        if os.name == 'posix':
+            root = Tk()
+            root.filename = filedialog.asksaveasfilename(initialdir = "~/",title = "Select file",filetypes = (("text files","*.txt"),("all files","*.*")))
+            root.destroy()
+            return root.filename
+        elif os.name == 'nt':
+            root = Tk()
+            root.filename = filedialog.asksaveasfilename(initialdir = "C:/",title = "Select file",filetypes = (("text files","*.txt"),("all files","*.*")))
+            root.destroy()
+            return root.filename
+        else:
+            root = Tk()
+            error = Label(toplevel, text="Your OS is unsupported :'(",height=0, width=100).pack()
     else:
-        root = Tk()
-        error = Label(toplevel, text="Your OS is unsupported :'(",height=0, width=100).pack()
+        path = input("Enter the location you'd like to save your IP:\n")
+        return path
 
 
 def configuration():
@@ -52,7 +55,6 @@ def get_pub_ip():
     old_ip = conf.read()
     conf.close()
     if curr_ip.text == old_ip:
-        print("Pausing 1hr..")
         time.sleep(timeout)
     else:
         f = open(file_path, 'w+')
@@ -64,7 +66,6 @@ def loop():
     while True:
         print("Running..")
         get_pub_ip()
-        print("Pausing 30min..")
         time.sleep(timeout)
 
 
