@@ -14,7 +14,7 @@ def get_file():
     if os.name == 'posix':
         print("You are using Linux")
         root = Tk()
-        root.filename = filedialog.asksaveasfilename(initialdir = "~/Projects/ip-update/",title = "Select file",filetypes = (("text files","*.txt"),("all files","*.*")))
+        root.filename = filedialog.asksaveasfilename(initialdir = "~/",title = "Select file",filetypes = (("text files","*.txt"),("all files","*.*")))
         root.destroy()
         return root.filename
     elif os.name == 'nt':
