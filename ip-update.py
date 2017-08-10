@@ -1,6 +1,6 @@
 import time
 import requests
-import os, sys, stat
+import os
 import os.path as path
 from tkinter import filedialog
 from tkinter import *
@@ -23,9 +23,6 @@ def get_file():
             root.filename = filedialog.asksaveasfilename(initialdir = "C:/",title = "Select file",filetypes = (("text files","*.txt"),("all files","*.*")))
             root.destroy()
             return root.filename
-        else:
-            root = Tk()
-            error = Label(toplevel, text="Your OS is unsupported :'(",height=0, width=100).pack()
     else:
         path = input("Enter the location you'd like to save your IP:\n")
         return path
@@ -60,6 +57,7 @@ def get_pub_ip():
         f = open(file_path, 'w+')
         f.write(curr_ip.text)
         f.close()
+        os.system('./Dropbox-Uploader/dropbox_uploader.sh upload home-ip.txt home-ip.txt')
 
 
 def loop():
